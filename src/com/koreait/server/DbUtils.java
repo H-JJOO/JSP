@@ -33,38 +33,27 @@ public class DbUtils {
         return con;
 
     }
+
+    public void close(Connection con, PreparedStatement ps) {
+        close(con, ps, null);
+    }
+
     //리소스 엄청 먹어서, 반납해줘야함
     //CRUD
     public void close(Connection con, PreparedStatement ps, ResultSet rs) {//통신을해야하니까(고속도로), //쿼리문 실행(컨트롤쉬프트에프구)담당, //SELECT 결과물 담는 역할
-
-        //닫을때는 반대로 해줘야함
-
-        if (rs != null) {
-            try { rs.close();
-            } catch (Exception e) { e.printStackTrace(); }
+        if(rs != null) {// 여기서 오류나더라도 밑에꺼 닫게끔 하기 위해서 따로 설정
+            try { rs.close(); }
+            catch (Exception e) { e.printStackTrace(); }
         }
-
-        if (ps != null) {
-            try { ps.close();
-            } catch (Exception e) { e.printStackTrace(); }
+        if(ps != null) {
+            try { ps.close(); }
+            catch (Exception e) { e.printStackTrace(); }
         }
-
-        if (con != null) {
-            try { con.close();
-            } catch (Exception e) { e.printStackTrace(); }
+        if(con != null) {
+            try { con.close(); }
+            catch (Exception e) { e.printStackTrace(); }
         }
     }
-    //CUD
-    public void close(Connection con, PreparedStatement ps) {
-        if (ps != null) {
-            try { ps.close();
-            } catch (Exception e) { e.printStackTrace(); }
-        }
-
-        if (con != null) {
-            try { con.close();
-            } catch (Exception e) { e.printStackTrace(); }
-        }
-    }
-
 }
+
+
