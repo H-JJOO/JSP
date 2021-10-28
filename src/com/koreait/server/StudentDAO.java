@@ -10,8 +10,9 @@ public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA A
         vo.setNm("궁예");
         vo.setAge(55);
         vo.setAddr("개성");
+        vo.setSno(11);
 
-        updStudent(vo);
+        StudentDAO.updStudent(vo);
 
 
     }
@@ -48,17 +49,19 @@ public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA A
 
     public static int updStudent(StudentVO vo) {
 
-        Connection con = null;
+        Connection con = null;//통신담당
         PreparedStatement ps = null; //쿼리문 실행담당 (+ 쿼리문 완성)
-        String sql = "UPDATE t_student2 " +
-                    "SET nm = ? , age = ?, addr = ?" +
-                    "WHERE sno = 10 ";
+        //쿼리문(하고자하는거)
+        String sql = " UPDATE t_student2 " +
+                    " SET nm = ? , age = ?, addr = ? " +
+                    " WHERE sno = ? ";
         try{
             con = dbUtils.getCon();
             ps = con.prepareStatement(sql);
             ps.setString(1, vo.getNm());
             ps.setInt(2, vo.getAge());
             ps.setString(3, vo.getAddr());
+            ps.setInt(4,vo.getSno());
             return ps.executeUpdate();// 영향을 미친 행 수, 0 이 리턴됬다면 업무처리 된게 없다는 뜻
         } catch (Exception e) {
             e.printStackTrace();
