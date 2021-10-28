@@ -7,12 +7,12 @@ public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA A
 
     public static void main(String[] args) {
         StudentVO vo = new StudentVO();
-        vo.setNm("궁예");
-        vo.setAge(55);
-        vo.setAddr("개성");
+//        vo.setNm("궁예");
+//        vo.setAge(55);
+//        vo.setAddr("개성");
         vo.setSno(11);
 
-        StudentDAO.updStudent(vo);
+        StudentDAO.delStudent(vo);
 
 
     }
@@ -68,7 +68,25 @@ public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA A
         } finally {
             dbUtils.close(con, ps);
         }
+        return 0;
+    }
 
+    public static int delStudent(StudentVO vo) {
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = " DELETE FROM t_student2 " +
+                    " WHERE sno = ? ";
+
+        try {
+            con = dbUtils.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, vo.getSno());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dbUtils.close(con, ps);
+        }
         return 0;
     }
 
