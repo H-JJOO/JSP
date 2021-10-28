@@ -82,6 +82,7 @@ public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA A
             con = dbUtils.getCon();
             ps = con.prepareStatement(sql);
             ps.setInt(1, vo.getSno());
+            return ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
