@@ -10,7 +10,10 @@ public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA A
 //        vo.setNm("궁예");
 //        vo.setAge(55);
 //        vo.setAddr("개성");
-        vo.setSno(11);
+        vo.setSno(10);
+
+        int result = StudentDAO.delStudent(vo);
+        System.out.println("result : " + result);
 
         StudentDAO.delStudent(vo);
 
