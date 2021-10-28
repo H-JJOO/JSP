@@ -9,11 +9,14 @@ import java.util.List;
 public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA ACCESS OBJECT 데이터 접근 객체
 
     public static void main(String[] args) {
-        List<StudentVO> list = selStudentList();
+        StudentVO param = new StudentVO();
+        param.setSno(5);
+        StudentVO vo = selStudent(param);
+        System.out.println("sno : " + vo.getSno());
+        System.out.println("nm : " + vo.getNm());
+        System.out.println("age : " + vo.getAge());
+        System.out.println("addr : " + vo.getAddr());
 
-        for(StudentVO vo : list) {
-            System.out.printf("%d - %s\n" , vo.getSno(), vo.getNm());
-        }
     }
 
     public static DbUtils dbUtils = DbUtils.getInstance();
@@ -44,7 +47,7 @@ public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA A
 
     }
 
-    //TODO select
+    //여러개 가져오기(List)
     public static List<StudentVO> selStudentList() {//한곳에 담아서 레코드를 여러개 넘길거다, 파라미터 없다는건 다 데려오겠다는 것
         List<StudentVO> list = new ArrayList();
         Connection con = null;
@@ -72,6 +75,33 @@ public class StudentDAO {//데이터 엑세스, 쿼리문 들어갈거임 DATA A
             dbUtils.close(con, ps, rs);
         }
         return list;
+    }
+    //한개만 가져오기
+    public static StudentVO selStudent(StudentVO vo) {//int sno 해도 되지만 고정으로 가져와서 쓰자
+        StudentVO result = null;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM t_student2 WHERE sno = ?";
+        try {
+            con = dbUtils.getCon();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, vo.getSno());
+            rs = ps.executeQuery();//SELECT 문 은 executeQuery() //WHERE 절에 PK 가 있으면 있는 값이면 1(True) 없는 값이면 0(False)
+
+            if (rs.next()) {
+                result = new StudentVO();
+                result.setSno(rs.getInt("sno"));
+                result.setNm(rs.getString("nm"));
+                result.setAge(rs.getInt("age"));
+                result.setAddr(rs.getString("addr"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            dbUtils.close(con, ps, rs);
+        }
+        return result;
     }
 
 
